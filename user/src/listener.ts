@@ -8,9 +8,7 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        urls: [
-          'amqps://mxmhvdbn:Z0LqyMp8dVRflJS_AbYJ9JLOmiLEXg-z@stingray.rmq.cloudamqp.com/mxmhvdbn',
-        ],
+        urls: [process.env.AMQP_URL],
         queue: 'user_queue',
         queueOptions: {
           durable: false,
