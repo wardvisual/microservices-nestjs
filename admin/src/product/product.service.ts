@@ -43,12 +43,6 @@ export class ProductService {
   ): Promise<Product> {
     const product = await this.findOne(id);
 
-    if (!product) {
-      throw new NotFoundException(
-        `Cannot update product with an ID of ${id} as it was not found.`,
-      );
-    }
-
     product.updatedAt = new Date(Date.now());
 
     Object.assign(product, updateProductDto);
@@ -60,5 +54,10 @@ export class ProductService {
     const product = await this.findOne(id);
 
     return this.productRepository.delete(product.id);
+  }
+
+  async like(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    console.log({ updateProductDto });
+    return await this.update(id, updateProductDto);
   }
 }
