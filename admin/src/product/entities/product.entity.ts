@@ -14,6 +14,9 @@ export class Product {
   @Column()
   imagePath: string;
 
+  @Column({ default: 0 })
+  likes?: number;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 }
