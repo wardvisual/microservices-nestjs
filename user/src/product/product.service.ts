@@ -21,4 +21,20 @@ export class ProductService {
   async find(): Promise<Product[]> {
     return this.productModel.find().exec();
   }
+
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productModel.findById(id);
+
+    if (!product) {
+      throw new NotFoundException(
+        `Cannot update product with an ID of ${id} as it was not found.`,
+      );
+    }
+
+    product.updatedAt = new Date(Date.now());
+
+    return await this.productModel.updateOne({ _id: id }, [
+      { $set: updateProductDto },
+    ]);
+  }
 }
