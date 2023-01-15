@@ -59,4 +59,12 @@ export class ProductController {
 
     return await this.productService.delete(id);
   }
+
+  @Patch(':id/like')
+  async like(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
+    return await this.productService.like(id, updateProductDto);
+  }
 }
