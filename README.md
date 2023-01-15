@@ -30,7 +30,7 @@ This repository contains an example of building microservices using NestJS, Rabb
 ## Usage
 
 The application provides two services: `admin` and `user`. `admin` is responsible for sending messages to `user` via a RabbitMQ message queue.
-`admin` uses MySQL as its database and `user` uses MongoDB as its database.
+
 You can test the communication between the services by sending a message to `admin` and observing the message being received by `user`.
 
 ## Note
