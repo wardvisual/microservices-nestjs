@@ -27,9 +27,14 @@ export class ProductController {
     return await this.productService.find();
   }
 
+  @Patch(':id/like')
+  async like(@Param('id', ParseIntPipe) id: number) {
+    return await this.productService.like(id);
+  }
+
   @EventPattern('product_updated')
-  async update(product: Product) {
-    const _product = await this.productService.update(product.id, product);
+  async updateOne(product: Product) {
+    const _product = await this.productService.updateOne(product.id, product);
 
     return _product;
   }
