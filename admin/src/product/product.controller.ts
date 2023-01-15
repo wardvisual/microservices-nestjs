@@ -24,12 +24,15 @@ export class ProductController {
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
-    return await this.productService.create(createProductDto);
+    const product = await this.productService.create(createProductDto);
+
+    this.client.emit<Product>('product_created', product);
+
+    return product;
   }
 
   @Get()
   async find(): Promise<Product[]> {
-    this.client.emit<string>('hello', 'hey bro');
     return await this.productService.find();
   }
 
@@ -43,11 +46,17 @@ export class ProductController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    return await this.productService.update(id, updateProductDto);
+    const product = await this.productService.update(id, updateProductDto);
+
+    this.client.emit<Product>('product_updated', product);
+
+    return product;
   }
 
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
+    this.client.emit<Product>('product_deleted', id);
+
     return await this.productService.delete(id);
   }
 }
