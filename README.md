@@ -1,11 +1,13 @@
 # Microservices with NestJS and RabbitMQ
 
-This repository contains an example of microservices with NestJS and RabbitMQ.
+This repository contains an example of building microservices using NestJS, RabbitMQ, and integrating multiple databases such as MySQL and MongoDB.
 
 ## Prerequisites
 
-- NestJS
+- Node.js
 - RabbitMQ
+- MySQL
+- MongoDB
 
 ## Installation
 
@@ -28,12 +30,12 @@ This repository contains an example of microservices with NestJS and RabbitMQ.
 ## Usage
 
 The application provides two services: `admin` and `user`. `admin` is responsible for sending messages to `user` via a RabbitMQ message queue.
-
+`admin` uses MySQL as its database and `user` uses MongoDB as its database.
 You can test the communication between the services by sending a message to `admin` and observing the message being received by `user`.
 
 ## Note
 
-This is just an example, you can use this as a starting point to build your own microservices with NestJS and RabbitMQ.
+This is just an example, you can use this as a starting point to build your own microservices with NestJS, RabbitMQ, and multiple databases. Make sure to update the database credentials accordingly before running the application.
 
 ## License
 
