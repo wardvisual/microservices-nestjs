@@ -18,6 +18,9 @@ export class Product {
   imagePath: string;
 
   @Prop()
+  likes?: number;
+
+  @Prop()
   updatedAt: Date;
 }
 
