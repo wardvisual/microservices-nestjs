@@ -15,7 +15,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { ClientProxy } from '@nestjs/microservices';
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
   constructor(
     private readonly productService: ProductService,

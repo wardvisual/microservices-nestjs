@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  mn_admin_db:
+    image: mysql:5.7
+    container_name: mn_admin_db
+    environment:
+      MYSQL_DATABASE: mn_admin_db
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - db-admin-data:/var/lib/mysql
+    networks:
+      - my-network
+    ports:
+      - '3307:3306'
+
+  mn_user_db:
+    image: mongo:latest
+    container_name: mn_user_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - db-user-data:/data/db
+    networks:
+      - my-network
+    ports:
+      - '3308:27017'
+
+volumes:
+  db-user-data:
+  db-admin-data:
+
+networks:
+  my-network:
+
