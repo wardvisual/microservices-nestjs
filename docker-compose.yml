@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 
 services:
   mn_admin_db:
@@ -12,7 +12,7 @@ services:
     networks:
       - my-network
     ports:
-      - '3307:3306'
+      - "3307:3306"
 
   mn_user_db:
     image: mongo:latest
@@ -25,7 +25,7 @@ services:
     networks:
       - my-network
     ports:
-      - '3308:27017'
+      - "3308:27017"
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -36,8 +36,8 @@ services:
     networks:
       - my-network
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
   db-user-data:
@@ -45,4 +45,3 @@ volumes:
 
 networks:
   my-network:
-

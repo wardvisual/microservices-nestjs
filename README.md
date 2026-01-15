@@ -5,9 +5,7 @@ This repository contains an example of building microservices using NestJS, Rabb
 ## Prerequisites
 
 - Node.js
-- RabbitMQ
-- MySQL
-- MongoDB
+- Docker & Docker Compose
 
 ## Installation
 
@@ -17,31 +15,97 @@ This repository contains an example of building microservices using NestJS, Rabb
    git clone https://github.com/wardvisual/microservices-nestjs.git
    ```
 
-2. Install the dependencies
+2. Start the databases and RabbitMQ
 
    ```sh
-   cd microservices-nestjs/admin && npm install
+   docker-compose up -d
+   ```
+
+3. Install the dependencies
+
+   ```sh
+   cd admin && npm install
    ```
 
    ```sh
-   cd microservices-nestjs/user && npm install
+   cd user && npm install
    ```
 
-## Usage
+4. Create `.env` file in `admin` directory
 
-The application provides two services: `admin` and `user`. `admin` is responsible for sending messages to `user` via a RabbitMQ message queue.
+   ```env
+   MYSQL_DB_PORT=3307
+   MYSQL_DB_USERNAME=root
+   MYSQL_DB_PASSWORD=password
+   MYSQL_DB_NAME=mn_admin_db
+   AMQP_URL=amqp://guest:guest@localhost:5672
+   ```
 
-You can test the communication between the services by sending a message to `admin` and observing the message being received by `user`.
+5. Create `.env` file in `user` directory
 
-## Note
+   ```env
+   MONGO_URI=mongodb://root:password@localhost:3308/admin
+   AMQP_URL=amqp://guest:guest@localhost:5672
+   ```
 
-This is just an example, you can use this as a starting point to build your own microservices with NestJS, RabbitMQ, and multiple databases. Make sure to update the database credentials accordingly before running the application.
+## Running the Application
+
+1. Start the admin service (runs on port 8000)
+
+   ```sh
+   cd admin && npm run start:dev
+   ```
+
+2. Start the user service (runs on port 8001)
+
+   ```sh
+   cd user && npm run start:dev
+   ```
+
+3. Start the user message listener
+
+   ```sh
+   cd user && npm run listen
+   ```
+
+## Architecture
+
+- **Admin Service**: REST API connected to MySQL database. Emits events to RabbitMQ when products are created, updated, or deleted.
+- **User Service**: REST API connected to MongoDB. Listens for events from RabbitMQ and syncs product data.
+- **RabbitMQ**: Message broker for communication between services using `user_queue`.
+
+## API Endpoints
+
+### Admin Service (http://localhost:8000/api)
+
+| Method | Endpoint           | Description       |
+| ------ | ------------------ | ----------------- |
+| GET    | /products          | Get all products  |
+| GET    | /products/:id      | Get product by id |
+| POST   | /products          | Create a product  |
+| PATCH  | /products/:id      | Update a product  |
+| DELETE | /products/:id      | Delete a product  |
+| PATCH  | /products/:id/like | Like a product    |
+
+### User Service (http://localhost:8001/api)
+
+| Method | Endpoint           | Description      |
+| ------ | ------------------ | ---------------- |
+| GET    | /products          | Get all products |
+| PATCH  | /products/:id/like | Like a product   |
+
+## Docker Services
+
+| Service  | Port  | Description    |
+| -------- | ----- | -------------- |
+| MySQL    | 3307  | Admin database |
+| MongoDB  | 3308  | User database  |
+| RabbitMQ | 5672  | Message broker |
+| RabbitMQ | 15672 | Management UI  |
 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- CONTACT -->
 
 ## Contact
 
