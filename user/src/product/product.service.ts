@@ -9,7 +9,7 @@ import { Response } from 'express';
 
 @Injectable()
 export class ProductService {
-  private adminURL = `http://localhost:8000/api/product`;
+  private adminURL = `http://localhost:8000/api/products`;
 
   constructor(
     @InjectModel(Product.name)

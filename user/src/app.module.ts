@@ -6,7 +6,7 @@ import { ProductModule } from './product/product.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot("mongodb://root:password@localhost:3308/admin"),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     ProductModule,
   ],
   controllers: [],
